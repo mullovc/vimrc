@@ -5,6 +5,9 @@ filetype plugin on
 syntax on
 set autoindent
 
+" enable omnicompletion
+set omnifunc=syntaxcomplete#Complete
+
 set background=dark
 
 set number
