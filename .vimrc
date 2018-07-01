@@ -49,7 +49,8 @@ set path+=**
 set wildmenu
 
 " insert single character after cursor
-nnoremap <Space> a_<Esc>r
+" nnoremap <Space> a_<Esc>r
+
 " newline without entering insert mode
 nmap <CR> o<ESC>
 nmap <S-Enter> O<ESC>
