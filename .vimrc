@@ -56,7 +56,6 @@ command CDCURR cd %:p:h
 " on command line expand %% to open file's directory
 cabbr <expr> %% expand('%:p:h')
 
-" PLUGINS
-
-" pathogen (plugin manager)
-execute pathogen#infect()
+if filereadable($HOME . "/.vim/profile.vim")
+	source ~/.vim/profile.vim
+endif
