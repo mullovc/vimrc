@@ -32,6 +32,10 @@ set virtualedit=block
 set showmatch
 set matchtime=3
 
+" highlight current line with dark grey background
+highlight CursorLine cterm=None ctermbg=0
+set cursorline
+
 " find out what this does
 " set nocompatible
 
