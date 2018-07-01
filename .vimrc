@@ -15,7 +15,9 @@ set hls
 " show the next match while entering a search
 set incsearch
 " ignore case
-set ic
+set ignorecase
+" ignore case only when lower letter search expression
+set smartcase
 
 set lbr
 
