@@ -37,6 +37,11 @@ set shiftwidth=4
 
 set virtualedit=block
 
+" open new vertical split to the right
+set splitright
+" open new horizontal split on the bottom
+set splitbelow
+
 " when a bracket is inserted, briefly jump to the matching one
 set showmatch
 set matchtime=3
