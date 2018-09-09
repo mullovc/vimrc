@@ -53,6 +53,9 @@ set cursorline
 " find out what this does
 " set nocompatible
 
+" redraw only when we need to
+set lazyredraw
+
 " recursive search in subdirectories for find command
 set path+=**
 
