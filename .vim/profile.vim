@@ -2,7 +2,7 @@
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree', { 'on' : 'NERDTreeFocus' }
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'ctrlpvim/ctrlp.vim'

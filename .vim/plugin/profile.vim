@@ -1,4 +1,5 @@
-let cpp_ide=$VIM_CPP_IDE
+nnoremap <C-N> :NERDTreeFocus<CR>
+
 if cpp_ide == "1"
 	nnoremap gd :YcmCompleter GoTo
 	nnoremap gD :YcmCompleter GoToDeclaration
