@@ -22,6 +22,7 @@ set ignorecase
 " ignore case only when lower letter search expression
 set smartcase
 
+" avoid wrapping a line in the middle of a word
 set lbr
 
 " show command in bottom bar
@@ -61,6 +62,7 @@ set path+=**
 
 " show all candidates for tab-completion
 set wildmenu
+set wildignorecase
 
 " insert single character after cursor
 " nnoremap <Space> a_<Esc>r
