@@ -54,12 +54,6 @@ set matchtime=3
 highlight CursorLine cterm=None ctermbg=236
 set cursorline
 
-" find out what this does
-" set nocompatible
-
-" redraw only when we need to
-set lazyredraw
-
 " recursive search in subdirectories for find command
 set path+=**
 
@@ -91,10 +85,30 @@ endif
 
 
 " mappings
-" newline without entering insert mode
-nmap <CR> o<ESC>
-nmap <S-Enter> O<ESC>
+let mapleader = " "
+let maplocalleader = "\\"
 
+inoremap jk <ESC>
+
+nnoremap <C-J> gt
+nnoremap <C-K> gT
+nnoremap <C-H> <C-W><C-h>
+nnoremap <C-L> <C-W><C-l>
+"nnoremap J gt
+"nnoremap K gT
+"nnoremap <C-H> <C-W><C-h>
+"nnoremap <C-L> <C-W><C-l>
+"nnoremap gj J
+"nnoremap g<C-J> gj
+"nnoremap <C-K> K
+
+" newline without entering insert mode
+"nnoremap <C-J> o<ESC>
+"nnoremap <C-M> o<ESC>
+
+nnoremap <leader>hl :nohlsearch<CR>
+
+nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 " commands
 " change working directory to currently open file's directory
 command! CDCURR cd %:p:h
@@ -102,7 +116,3 @@ command! CDCURR cd %:p:h
 
 " on command line expand %% to open file's directory
 cabbr <expr> %% expand('%:p:h')
-
-if filereadable($HOME . "/.vim/profile.vim")
-	source ~/.vim/profile.vim
-endif
