@@ -1,0 +1,166 @@
+" Tagbar
+nnoremap <F8> :TagbarToggle<CR>
+
+" UltiSnips
+" open snippets for current filetype in new split
+nnoremap <leader>eu :execute("vsplit /usr/share/vim/vimfiles/snippets/" . &filetype . ".snippets")<CR>
+
+" list available snippets
+command! ListAvailableSnippets echo UltiSnips#SnippetsInCurrentScope()
+
+" snippets in completion menu
+function! SnippetComplete()
+    call complete(col('.'), keys(UltiSnips#SnippetsInCurrentScope()))
+    return ''
+endfunction
+imap <C-X><C-S> <C-R>=SnippetComplete()<CR>
+
+let use_ycm  = $USE_YCM
+let use_coc  = $USE_COC
+let use_lsp  = $USE_LSP
+let use_jedi = $USE_JEDI
+let use_cmp  = $USE_CMP
+
+if use_ycm == "1"
+    "set rtp^=$HOME/.vim/plugged/YouCompleteMe
+    packadd YouCompleteMe
+
+    let g:ycm_key_list_select_completion = []
+    let g:ycm_key_list_previous_completion = []
+    let g:ycm_global_ycm_extra_conf = '$HOME/.ycm_extra_conf.py'
+
+    nnoremap gd :YcmCompleter GoTo<CR>
+    nnoremap gD :YcmCompleter GoToDeclaration<CR>
+"endif
+"if use_coc == "1"
+elseif use_coc == "1"
+    "set rtp^=$HOME/.config/nvim/plugins/coc.nvim
+    packadd coc.nvim
+elseif use_jedi == "1"
+    packadd jedi-vim
+
+    autocmd Filetype python setlocal omnifunc=jedi#completions
+    let g:jedi#use_splits_not_buffers = "right"
+    let g:jedi#popup_select_first = 0
+    let g:jedi#completions_command = "<C-N>"
+elseif use_lsp == "1"
+    packadd nvim-lspconfig
+
+    if executable('pyright')
+        lua require'lspconfig'.pyright.setup{}
+    elseif executable('pylsp')
+        lua require'lspconfig'.pylsp.setup{}
+    endif
+
+    if executable('bash-language-server')
+        lua require'lspconfig'.bashls.setup{}
+    endif
+
+    augroup lspmappings
+        autocmd!
+        "autocmd FileType python lua require'lspconfig'.pyright.setup{}
+        autocmd FileType python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+        autocmd FileType python nnoremap <buffer> <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
+        autocmd FileType python nnoremap <buffer> <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+        autocmd FileType python nnoremap <buffer> <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+        autocmd FileType python nnoremap <buffer> <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+        autocmd FileType python nnoremap <buffer> <silent> gK    <cmd>lua vim.lsp.buf.signature_help()<CR>
+        autocmd FileType python nnoremap <buffer> <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+        autocmd FileType python nnoremap <buffer> <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+        autocmd FileType python nnoremap <buffer> <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+        autocmd FileType python nnoremap <buffer> <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+
+        "autocmd BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 1000)
+
+        " bash
+        "autocmd FileType sh lua require'lspconfig'.bashls.setup{}
+        autocmd FileType sh setlocal omnifunc=v:lua.vim.lsp.omnifunc
+    augroup END
+
+
+    "packadd completion-nvim
+    "lua require'lspconfig'.pyls.setup{on_attach=require'completion'.on_attach}
+    "set completeopt=menuone,noinsert,noselect
+
+
+    packadd nvim-compe
+    set completeopt=menu,menuone,noselect
+    inoremap <silent><expr> <C-Space> compe#complete()
+
+    lua << EOF
+    require'compe'.setup {
+      enabled = true;
+      autocomplete = true;
+      debug = false;
+      min_length = 1;
+      preselect = 'enable';
+      throttle_time = 80;
+      source_timeout = 200;
+      incomplete_delay = 400;
+      max_abbr_width = 100;
+      max_kind_width = 100;
+      max_menu_width = 100;
+
+      source = {
+        path = true;
+        buffer = true;
+        calc = true;
+        vsnip = true;
+        nvim_lsp = true;
+        nvim_lua = true;
+        spell = true;
+        tags = true;
+        snippets_nvim = true;
+        treesitter = true;
+      };
+    }
+EOF
+    
+elseif use_cmp == "1"
+    packadd nvim-cmp
+    packadd cmp-buffer
+    packadd cmp-path
+    "packadd cmp-nvim-lsp
+
+    set completeopt=menu,menuone,noselect
+
+    lua <<EOF
+    local cmp = require'cmp'
+    cmp.setup({
+      sources = {
+        { name = 'buffer' },
+        { name = 'path' },
+        --{ name = 'nvim_lsp' },
+      }
+    })
+EOF
+else
+    packadd nvim-compe
+    set completeopt=menu,menuone,noselect
+    inoremap <silent><expr> <C-Space> compe#complete()
+
+    lua << EOF
+    require'compe'.setup {
+      enabled = true;
+      autocomplete = true;
+      debug = false;
+      min_length = 1;
+      preselect = 'enable';
+      throttle_time = 80;
+      source_timeout = 200;
+      resolve_timeout = 800;
+      incomplete_delay = 400;
+      max_abbr_width = 100;
+      max_kind_width = 100;
+      max_menu_width = 100;
+      documentation = true;
+      source = {
+        path = true;
+        buffer = true;
+        calc = true;
+        ultisnips = true;
+        nvim_lua = true;
+      };
+    }
+EOF
+endif
