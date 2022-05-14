@@ -21,6 +21,7 @@ set smartcase
 
 " avoid wrapping a line in the middle of a word
 set lbr
+set nowrap
 
 " show command in bottom bar
 set showcmd
