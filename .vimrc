@@ -5,9 +5,6 @@ filetype plugin on
 syntax on
 set autoindent
 
-" enable omnicompletion
-set omnifunc=syntaxcomplete#Complete
-
 set background=dark
 
 set number
@@ -36,7 +33,13 @@ set softtabstop=4
 set expandtab
 set shiftwidth=4
 
+" show indicator at line breaks
+set showbreak=↪\ 
+
 set virtualedit=block
+
+" disable modeline for security reasons
+set nomodeline
 
 " open new vertical split to the right
 set splitright
@@ -48,7 +51,7 @@ set showmatch
 set matchtime=3
 
 " highlight current line with dark grey background
-highlight CursorLine cterm=None ctermbg=0
+highlight CursorLine cterm=None ctermbg=236
 set cursorline
 
 " find out what this does
@@ -62,17 +65,41 @@ set path+=**
 
 " show all candidates for tab-completion
 set wildmenu
+" case insensitive file completion
 set wildignorecase
 
-" insert single character after cursor
-" nnoremap <Space> a_<Esc>r
+set inccommand=nosplit
 
+set undofile
+
+" ALWAYS use the clipboard for ALL operations (instead of interacting with the
+" '+' and/or '*' registers explicitly)
+set clipboard+=unnamedplus
+
+" completion
+" complete to longest common match instead of first menu entry
+set completeopt+=longest
+
+" enable syntax omnicompletion only if a specific plugin does not already
+" exist for the current filetype
+if has("autocmd") && exists("+omnifunc")
+    autocmd Filetype *
+                \	if &omnifunc == "" |
+                \		setlocal omnifunc=syntaxcomplete#Complete |
+                \	endif
+endif
+
+
+" mappings
 " newline without entering insert mode
 nmap <CR> o<ESC>
 nmap <S-Enter> O<ESC>
 
+" commands
 " change working directory to currently open file's directory
-command CDCURR cd %:p:h
+command! CDCURR cd %:p:h
+
+
 " on command line expand %% to open file's directory
 cabbr <expr> %% expand('%:p:h')
 
