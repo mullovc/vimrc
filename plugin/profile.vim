@@ -33,7 +33,6 @@ else
         call lspstuff#UseLsp()
     endif
 
-    "call completionstuff#UseCompe(v:false)
     call completionstuff#UseCmp()
 endif
 
